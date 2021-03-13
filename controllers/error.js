@@ -5,3 +5,11 @@ exports.pageNotFound = (req, res, next) => {
     isAuthenticated: req.isLoggedIn
   });
 };
+
+exports.internalServerError = (req, res, next) => {
+  res.status(500).render("error/500", {
+    pageTitle: "Internal Server Error",
+    path: "/500",
+    isAuthenticated: req.isLoggedIn
+  });
+};

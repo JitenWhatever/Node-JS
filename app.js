@@ -44,27 +44,35 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.auth;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+app.use((req, res, next) => {
   if (!req.session.auth) {
     return next();
   }
   User.findById(req.session.auth._id)
     .then((user) => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
-    .catch((error) => console.log(error));
-});
-
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.auth;
-  res.locals.csrfToken = req.csrfToken();
-  next();
+    .catch((error) => {
+      next(new Error(error));
+    });
 });
 
 app.use("/admin", adminRoutes.routes);
 app.use(shopRoutes.routes);
 app.use(authRoutes.routes);
 app.use(errorRoutes.routes);
+app.use((error, req, res, next) => {
+  res.redirect("/500");
+});
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })

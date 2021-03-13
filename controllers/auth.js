@@ -113,8 +113,10 @@ exports.postSignup = (req, res, next) => {
         html: "<h1>Welcome to Node World!</h1>",
       });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };
 
@@ -171,7 +173,9 @@ exports.postReset = (req, res, next) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        next(error);
       });
   });
 };
@@ -192,14 +196,10 @@ exports.getResetPassword = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
-  let message = req.flash("error");
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
 };
 
 exports.postResetPassword = (req, res, next) => {
@@ -226,6 +226,8 @@ exports.postResetPassword = (req, res, next) => {
       res.redirect("/login");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };

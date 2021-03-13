@@ -10,8 +10,10 @@ exports.getProducts = (req, res, next) => {
         path: "/products",
       });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };
 
@@ -25,8 +27,10 @@ exports.getProduct = (req, res, next) => {
         path: "/products",
       });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };
 
@@ -39,8 +43,10 @@ exports.getIndex = (req, res, next) => {
         path: "/",
       });
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };
 
@@ -56,7 +62,11 @@ exports.getCart = (req, res, next) => {
         cartProducts: products,
       });
     })
-    .catch((error) => console.log(error));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
+    });
 };
 
 exports.postCart = (req, res, next) => {
@@ -70,7 +80,11 @@ exports.postCart = (req, res, next) => {
       res.redirect("/cart");
       console.log(result);
     })
-    .catch((error) => console.log(error));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
+    });
 };
 
 exports.getCheckout = (req, res, next) => {
@@ -87,7 +101,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then((result) => {
       res.redirect("/cart");
     })
-    .catch((error) => console.log(error));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
+    });
 };
 
 exports.postOrder = (req, res, next) => {
@@ -113,8 +131,10 @@ exports.postOrder = (req, res, next) => {
     .then(() => {
       res.redirect("/orders");
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
     });
 };
 
@@ -127,5 +147,9 @@ exports.getOrders = (req, res, next) => {
         path: "/orders",
       });
     })
-    .catch((error) => console.log(error));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      next(error);
+    });
 };
