@@ -1,5 +1,5 @@
 const path = require("path");
-const { check } = require("express-validator/check");
+const { check } = require("express-validator");
 const express = require("express");
 
 const adminController = require("../controllers/admin");
