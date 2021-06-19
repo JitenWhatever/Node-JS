@@ -19,15 +19,15 @@ const store = new MongoDBStore({
 
 const csrfProtection = csrf();
 const fileStorage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, path.join("E:\\VsCode\\Node-JS", "images"));
+  destination: (_req, _file, callback) => {
+    callback(null, "images");
   },
-  filename: (req, file, callback) => {
+  filename: (_req, file, callback) => {
     callback(null, file.originalname);
   },
 });
 
-const filter = (req, file, callback) => {
+const filter = (_req, file, callback) => {
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||
@@ -55,6 +55,7 @@ app.use(
   }).single("image")
 );
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
   session({
@@ -74,7 +75,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   if (!req.session.auth) {
     return next();
   }
@@ -95,13 +96,14 @@ app.use("/admin", adminRoutes.routes);
 app.use(shopRoutes.routes);
 app.use(authRoutes.routes);
 app.use(errorRoutes.routes);
-app.use((error, req, res, next) => {
+app.use((error, _req, res, _next) => {
+  console.log(error);
   res.redirect("/500");
 });
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
-  .then((client) => {
+  .then((_client) => {
     app.listen(8080);
   })
   .catch((error) => {

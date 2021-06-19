@@ -97,6 +97,9 @@ dist
 # IMAGES
 images/
 
+# DATA
+data/
+
 # FuseBox cache
 .fusebox/
 
