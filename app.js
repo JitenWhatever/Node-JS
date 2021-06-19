@@ -9,8 +9,7 @@ const multer = require("multer");
 
 const User = require("./models/user");
 
-const MONGODB_URI =
-  "mongodb+srv://node_js:nphEHhnkAkodRdSI@cluster0.fevgn.mongodb.net/NodeJS?retryWrites=true&w=majority";
+const MONGODB_URI = "mongodb://127.0.0.1:27017/NODE_JS";
 
 const app = express();
 const store = new MongoDBStore({
